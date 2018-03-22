@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Bruk av R på åpne data - Norsk kjøttproduksjon</title>
+
+  
+  
+
+
+
+
+
+  
+  <meta name="author" content="Arne Bergene Fossaa" />
+  <meta name="description" content="På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger." />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="Bruk av R på åpne data - Norsk kjøttproduksjon" />
+    <meta name="twitter:description" content="På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger." />
+    <meta name="twitter:image" content="/img/avatar.jpg" />
+  
+
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Bruk av R på åpne data - Norsk kjøttproduksjon" />
+  <meta property="og:description" content="På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger." />
+  <meta property="og:url" content="/2018/03/22/bruk-av-r-p%C3%A5-%C3%A5pne-data---norsk-kj%C3%B8ttproduksjon/" />
+  <meta property="og:image" content="/img/avatar.jpg" />
+
+
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+
+<link rel="canonical" href="/2018/03/22/bruk-av-r-p%C3%A5-%C3%A5pne-data---norsk-kj%C3%B8ttproduksjon/" />
+<link rel="alternative" href="/index.xml" title="arnes.dev.blog" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="arnes.dev.blog" />
+<meta name="msapplication-tooltip" content="arnes.dev.blog" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://github.com/identicons/arnebef.png" alt="Avatar">
+  
+  <h2 class="title">arnes.dev.blog</h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/about/">About</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="https://github.com/arnebef">GitHub</a>
+          </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Bruk av R på åpne data - Norsk kjøttproduksjon</h1>
+      <p class="post-meta">@Arne Bergene Fossaa · Mar 22, 2018 · 8 min read</p>
+    </header>
+    <article class="post-content"><p>På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg <a href="https://data.norge.no/data/landbruksdirektoratet/leveranser-til-slakteri-i-landbruket-i-2016">statistikk over norsk kjøttproduksjon i 2016</a>, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger.</p>
+<p>Først laster vi data fra CSV - data er separaret med semikolon og ikke komma, så det må spesifiseres. Siden “,” er brukt for å separaere desimaler, må det og spesifiseres, siden R som standard forventer at dette skal være “.”</p>
+<pre class="r"><code>meat_prod = read.csv(&quot;2016.csv&quot;, sep=&quot;;&quot;, dec=&quot;,&quot;)
+str(meat_prod)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    29433 obs. of  27 variables:
+##  $ orgnr             : int  981397290 969907321 985228728 869396982 986122109 969635488 969209713 969822997 969349396 969838729 ...
+##  $ navn              : Factor w/ 29239 levels &quot;10/27 WORKS STEFFEN BUCH&quot;,..: 17302 6530 4843 28009 14205 19429 20653 24455 5442 25477 ...
+##  $ komnr             : int  1032 1216 1511 1548 1101 1635 1144 1432 619 1445 ...
+##  $ and_kg            : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ geit_kg           : num  0 0 0 0 0 ...
+##  $ kje_kg            : num  0 0 0 0 0 ...
+##  $ gris_kg           : num  0 0 0 0 0 92.6 0 0 0 0 ...
+##  $ purke_kg          : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ raane_kg          : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ gaas_kg           : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ hane_kg           : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ hest_foll_kg      : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ hons_kg           : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ kalkun_kg         : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ kalv_kg           : num  104 0 0 185 4201 ...
+##  $ kylling_kg        : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ lam_kg            : num  0 7193 533 0 3111 ...
+##  $ lam_villsau_kg    : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ sau_kg            : num  0 973 256 0 332 ...
+##  $ ungsau_kg         : num  0 247.9 142.9 0 35.6 ...
+##  $ vaer_kg           : num  0 94.8 48.6 0 46 0 0 0 0 0 ...
+##  $ ku_kg             : num  326 0 0 3914 1603 ...
+##  $ kvige_kg          : num  0 0 0 264 219 ...
+##  $ okse_kg           : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ ungokse_kastrat_kg: num  0 0 0 2351 0 ...
+##  $ ungku_kg          : num  189 0 0 3178 1506 ...
+##  $ ull_kg            : num  0 848 343 0 508 ...</code></pre>
+<p>str() gir en fin kjapp oversikt over variablene - men her er det mye noise når man ser nærmere. Det første man kan se er at all gjennomsnitt er basert på gjennomsnitt produksjon per gårdsbruk, uansett om gårdsbruket produserer kjøttet eller ei. Det neste er at det er noe feil i dataen, organisjoner med samme organisasjonsummer har rapportert inn flere ganger. Det er dog noen organisasjoner som eksisterer i flere kommuner - dette kan skje om det er større organisasjoner som har flere fjøs - så vi lar primærnøkkelen her være orgnr og komnr.</p>
+<pre class="r"><code>suppressPackageStartupMessages(library(dplyr))
+nrow(meat_prod)</code></pre>
+<pre><code>## [1] 29433</code></pre>
+<pre class="r"><code>nrow(unique(select(meat_prod, orgnr, komnr)))</code></pre>
+<pre><code>## [1] 27369</code></pre>
+<p>Det er altså 29433 oppslag, mens det er 27369 unike nøkler. La oss fikse dette ved å bruke dplyr - funksjonene group_by og summarise:</p>
+<pre class="r"><code>meat_prod_values = meat_prod %&gt;% 
+  group_by(orgnr,komnr) %&gt;%
+  summarise_if(is.numeric,funs(sum))
+meat_prod_name = meat_prod %&gt;% 
+  group_by(orgnr,komnr) %&gt;%
+  summarise_if(is.factor,funs(first))
+meat_prod = merge(meat_prod_values, meat_prod_name)
+nrow(meat_prod)</code></pre>
+<pre><code>## [1] 27369</code></pre>
+<p>Kun unike nøkler - bra!</p>
+<p>La oss se litt nærmere på dataen vi har, og ta for oss grisekjøtt for nå.</p>
+<pre class="r"><code>pigs = select(meat_prod, orgnr, navn, komnr,gris_kg, purke_kg, raane_kg)
+pigs = filter(pigs, gris_kg &gt; 0 | purke_kg &gt; 0 | raane_kg &gt; 0)
+nrow(pigs)</code></pre>
+<pre><code>## [1] 2398</code></pre>
+<p>Som vi ser, er det 2398 gårder som produserer gris. La oss gå dypere og se hvor disse gårdene er plassert. Vi må da først laste inn en database over kommuner i Norge. Dette datasette er hentet ned fra<a href="https://www.ssb.no/klass/klassifikasjoner/131">SSB</a>.</p>
+<pre class="r"><code>knr = read.csv2(&quot;knr.csv&quot;, sep=&quot;;&quot;, encoding=&quot;UTF-8&quot;)
+knr = select(knr, komnr = Kodeverdi, kommunenavn = Beskrivelse)
+knr$fylkesnr = floor(knr$komnr / 100) #De 2 første sifrene i et kommunenummer er fylkesnummeret - vi trenger det senere
+pigs = merge(pigs,knr)
+pigs$kommunenavn = as.factor(pigs$kommunenavn)
+head(summary(pigs$kommunenavn))</code></pre>
+<pre><code>##         Hå  Ringsaker      Klepp       Time Vindafjord   Levanger 
+##        145         83         78         70         67         63</code></pre>
+<p>Det er 1 kommune som ruver øverst på antall gårder som produserer grisekjøtt. Men er det fordi det er mange små produsenter eller fordi de produserer mest?</p>
+<pre class="r"><code>pigs$total_kg = pigs$gris_kg + pigs$purke_kg + pigs$raane_kg
+head(sort(tapply(pigs$total_kg,pigs$kommunenavn,sum), decreasing=TRUE))</code></pre>
+<pre><code>##         Hå  Ringsaker      Klepp   Levanger       Time Vindafjord 
+##    9023840    7722147    5824330    5116636    5020248    4379787</code></pre>
+<pre class="r"><code>sum(pigs$total_kg[pigs$kommunenavn %in% c(&quot;Hå&quot;)]) / sum(pigs$total_kg) </code></pre>
+<pre><code>## [1] 0.06575006</code></pre>
+<p>Som vi ser er det og de som produserer mest, der over 9000 tonn grisekjøtt eller 6,5 % av alt grisekjøtt som produserers i Norge kommer fra den lille kommunen - det er rimelig imponerende.</p>
+<p>La oss se på hvor vi finner den aller største grisebonden i landet:</p>
+<pre class="r"><code>pigs[which.max(pigs$total_kg),]</code></pre>
+<pre><code>##     komnr     orgnr                  navn  gris_kg purke_kg raane_kg
+## 188   234 970481893 HANS ANDERS FJELDSTAD 372661.2   1261.4        0
+##     kommunenavn fylkesnr total_kg
+## 188    Gjerdrum        2 373922.6</code></pre>
+<pre class="r"><code>max(pigs$total_kg) / sum(pigs$total_kg)</code></pre>
+<pre><code>## [1] 0.002724498</code></pre>
+<p>Den største grisebonden heter altså Hans Anders Fjeldstad befinner seg i Gjerdrum, og lever alene 0.27 % av all grisekjøtt i Norge.</p>
+<p>La oss se om vi kan vise denne informasjonen på en litt mer spennende måte. Vi kan da bruke Google Charts til å representere dataen geografisk. Google har kun oppløsning på fylkesnivå, så før vi kan bruke Google sitt API må først konsolidere opp dataen opp til fylkesnivå.</p>
+<pre class="r"><code>fylker = data.frame(fylkesnr=1:20,
+                    fylkesnavn=c(&quot;Østfold&quot;, &quot;Akershus&quot;, &quot;Oslo&quot;, &quot;Hedmark&quot;, &quot;Oppland&quot;, &quot;Buskerud&quot;, &quot;Vestfold&quot;, &quot;Telemark&quot;, &quot;Aust-Agder&quot;,&quot;Vest-Agder&quot;,&quot;Rogaland&quot;,&quot;Hordaland&quot;,&quot;Bergen&quot;,&quot;Sogn og Fjordane&quot;,&quot;Møre og Romsdal&quot;, &quot;Sør-Trøndelag&quot;,&quot;Nord-Trøndelag&quot;,&quot;Nordland&quot;,&quot;Troms&quot;,&quot;Finnmark&quot; ))
+pigs_fylker = group_by(pigs,fylkesnr) %&gt;%
+  summarise(total_kg = floor(sum(total_kg)))
+pigs_fylker = merge(pigs_fylker,fylker)</code></pre>
+<p>Vi bruker så pakken “googleVis” som bruker Google sitt API til å lage interaktive grafer.</p>
+<pre class="r"><code>suppressPackageStartupMessages(library(googleVis))</code></pre>
+<pre><code>## Creating a generic function for &#39;toJSON&#39; from package &#39;jsonlite&#39; in package &#39;googleVis&#39;</code></pre>
+<pre class="r"><code>op &lt;- options(gvis.plot.tag=&#39;chart&#39;)
+geostates = gvisGeoChart(pigs_fylker, &quot;fylkesnavn&quot;, &quot;total_kg&quot;,options=list(
+  region=&quot;NO&quot;, 
+  displaymode=&quot;regions&quot;, 
+  resolution=&quot;provinces&quot;, 
+  width=600,height=400,
+  datalessRegionColor=&quot;#FFFFFF&quot;,
+  colorAxis=&quot;{minValue:0,maxValue:50000000}&quot;
+  ))
+plot(geostates)</code></pre>
+<!-- GeoChart generated in R 3.4.2 by googleVis 0.6.2 package -->
+<!-- Thu Mar 22 10:02:16 2018 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID96ad21e3069b () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Østfold",
+9785243
+],
+[
+"Akershus",
+5195287
+],
+[
+"Oslo",
+12048
+],
+[
+"Hedmark",
+18688718
+],
+[
+"Oppland",
+9716166
+],
+[
+"Buskerud",
+1258242
+],
+[
+"Vestfold",
+9640300
+],
+[
+"Telemark",
+2028953
+],
+[
+"Aust-Agder",
+985765
+],
+[
+"Vest-Agder",
+1345543
+],
+[
+"Rogaland",
+40524199
+],
+[
+"Hordaland",
+2742487
+],
+[
+"Sogn og Fjordane",
+2037877
+],
+[
+"Møre og Romsdal",
+2809240
+],
+[
+"Sør-Trøndelag",
+2621646
+],
+[
+"Nord-Trøndelag",
+19503102
+],
+[
+"Nordland",
+7332713
+],
+[
+"Troms",
+945361
+],
+[
+"Finnmark",
+71684
+] 
+];
+data.addColumn('string','fylkesnavn');
+data.addColumn('number','total_kg');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID96ad21e3069b() {
+var data = gvisDataGeoChartID96ad21e3069b();
+var options = {};
+options["width"] = 600;
+options["height"] = 400;
+options["region"] = "NO";
+options["displaymode"] = "regions";
+options["resolution"] = "provinces";
+options["datalessRegionColor"] = "#FFFFFF";
+options["colorAxis"] = {minValue:0,maxValue:50000000};
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID96ad21e3069b')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID96ad21e3069b);
+})();
+function displayChartGeoChartID96ad21e3069b() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID96ad21e3069b"></script>
+<!-- divChart -->
+<div id="GeoChartID96ad21e3069b" style="width: 600; height: 400;">
+
+</div>
+<p>Men…hva har skjedd med Aust-Agder? Det viser seg at Google har en feil i sin fylkesstruktur, slik at Aust-Agder er satt til å være det samme som Vest-Agder! Undertegnede har sendt en bugrapport til Google, men inntil videre må vi istedet bruke koder fra ISO-3166-2 som navn på fylkene. Dette er koder som er på formen “NO-XX” der XX er fylkesnummeret. Om man bruker denne standarden vil Google plassere Aust-Agder riktig.</p>
+<pre class="r"><code>pigs_fylker$iso_code = sprintf(&quot;NO-%02d&quot;, pigs_fylker$fylkesnr)
+geostates = gvisGeoChart(pigs_fylker, &quot;iso_code&quot;, &quot;total_kg&quot;,hovervar = &quot;fylkesnavn&quot;, options=list(
+  region=&quot;NO&quot;, 
+  displaymode=&quot;regions&quot;, 
+  resolution=&quot;provinces&quot;, 
+  width=600,height=400,
+  datalessRegionColor=&quot;#FFFFFF&quot;,
+  colorAxis=&quot;{minValue:0,maxValue:50000000}&quot;
+  ))
+plot(geostates)</code></pre>
+<!-- GeoChart generated in R 3.4.2 by googleVis 0.6.2 package -->
+<!-- Thu Mar 22 10:02:17 2018 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID96ad2bfb9251 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"NO-01",
+"Østfold",
+9785243
+],
+[
+"NO-02",
+"Akershus",
+5195287
+],
+[
+"NO-03",
+"Oslo",
+12048
+],
+[
+"NO-04",
+"Hedmark",
+18688718
+],
+[
+"NO-05",
+"Oppland",
+9716166
+],
+[
+"NO-06",
+"Buskerud",
+1258242
+],
+[
+"NO-07",
+"Vestfold",
+9640300
+],
+[
+"NO-08",
+"Telemark",
+2028953
+],
+[
+"NO-09",
+"Aust-Agder",
+985765
+],
+[
+"NO-10",
+"Vest-Agder",
+1345543
+],
+[
+"NO-11",
+"Rogaland",
+40524199
+],
+[
+"NO-12",
+"Hordaland",
+2742487
+],
+[
+"NO-14",
+"Sogn og Fjordane",
+2037877
+],
+[
+"NO-15",
+"Møre og Romsdal",
+2809240
+],
+[
+"NO-16",
+"Sør-Trøndelag",
+2621646
+],
+[
+"NO-17",
+"Nord-Trøndelag",
+19503102
+],
+[
+"NO-18",
+"Nordland",
+7332713
+],
+[
+"NO-19",
+"Troms",
+945361
+],
+[
+"NO-20",
+"Finnmark",
+71684
+] 
+];
+data.addColumn('string','iso_code');
+data.addColumn('string','fylkesnavn');
+data.addColumn('number','total_kg');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID96ad2bfb9251() {
+var data = gvisDataGeoChartID96ad2bfb9251();
+var options = {};
+options["width"] = 600;
+options["height"] = 400;
+options["region"] = "NO";
+options["displaymode"] = "regions";
+options["resolution"] = "provinces";
+options["datalessRegionColor"] = "#FFFFFF";
+options["colorAxis"] = {minValue:0,maxValue:50000000};
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID96ad2bfb9251')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID96ad2bfb9251);
+})();
+function displayChartGeoChartID96ad2bfb9251() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID96ad2bfb9251"></script>
+<!-- divChart -->
+<div id="GeoChartID96ad2bfb9251" style="width: 600; height: 400;">
+
+</div>
+<p>Aust-Agder er på plass og vi har en fin statistikk over produksjon av grisekjøtt i Norge.</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  <footer class="site-footer">
+  <p>© 2017-2018 arnes.dev.blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="/js/bundle.js"></script>
+
+
+
+
+  </body>
+</html>
