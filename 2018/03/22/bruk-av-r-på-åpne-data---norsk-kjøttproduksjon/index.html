@@ -20,11 +20,11 @@
 
   
   
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@gohugoio" />
     <meta name="twitter:title" content="Bruk av R på åpne data - Norsk kjøttproduksjon" />
     <meta name="twitter:description" content="På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger." />
-    <meta name="twitter:image" content="/img/avatar.jpg" />
+    <meta name="twitter:image" content="/post/gris.jpg" />
   
 
   
@@ -32,7 +32,7 @@
   <meta property="og:title" content="Bruk av R på åpne data - Norsk kjøttproduksjon" />
   <meta property="og:description" content="På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger." />
   <meta property="og:url" content="/2018/03/22/bruk-av-r-p%C3%A5-%C3%A5pne-data---norsk-kj%C3%B8ttproduksjon/" />
-  <meta property="og:image" content="/img/avatar.jpg" />
+  <meta property="og:image" content="/post/gris.jpg" />
 
 
 
@@ -300,12 +300,12 @@ geostates = gvisGeoChart(pigs_fylker, &quot;fylkesnavn&quot;, &quot;total_kg&quo
   ))
 plot(geostates)</code></pre>
 <!-- GeoChart generated in R 3.4.2 by googleVis 0.6.2 package -->
-<!-- Thu Mar 22 10:02:16 2018 -->
+<!-- Thu Mar 22 10:26:50 2018 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID96ad21e3069b () {
+function gvisDataGeoChartID9abb6859889c () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -393,8 +393,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID96ad21e3069b() {
-var data = gvisDataGeoChartID96ad21e3069b();
+function drawChartGeoChartID9abb6859889c() {
+var data = gvisDataGeoChartID9abb6859889c();
 var options = {};
 options["width"] = 600;
 options["height"] = 400;
@@ -405,7 +405,7 @@ options["datalessRegionColor"] = "#FFFFFF";
 options["colorAxis"] = {minValue:0,maxValue:50000000};
 
     var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID96ad21e3069b')
+    document.getElementById('GeoChartID9abb6859889c')
     );
     chart.draw(data,options);
     
@@ -429,9 +429,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID96ad21e3069b);
+callbacks.push(drawChartGeoChartID9abb6859889c);
 })();
-function displayChartGeoChartID96ad21e3069b() {
+function displayChartGeoChartID9abb6859889c() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -454,9 +454,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID96ad21e3069b"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID9abb6859889c"></script>
 <!-- divChart -->
-<div id="GeoChartID96ad21e3069b" style="width: 600; height: 400;">
+<div id="GeoChartID9abb6859889c" style="width: 600; height: 400;">
 
 </div>
 <p>Men…hva har skjedd med Aust-Agder? Det viser seg at Google har en feil i sin fylkesstruktur, slik at Aust-Agder er satt til å være det samme som Vest-Agder! Undertegnede har sendt en bugrapport til Google, men inntil videre må vi istedet bruke koder fra ISO-3166-2 som navn på fylkene. Dette er koder som er på formen “NO-XX” der XX er fylkesnummeret. Om man bruker denne standarden vil Google plassere Aust-Agder riktig.</p>
@@ -471,12 +471,12 @@ geostates = gvisGeoChart(pigs_fylker, &quot;iso_code&quot;, &quot;total_kg&quot;
   ))
 plot(geostates)</code></pre>
 <!-- GeoChart generated in R 3.4.2 by googleVis 0.6.2 package -->
-<!-- Thu Mar 22 10:02:17 2018 -->
+<!-- Thu Mar 22 10:26:50 2018 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID96ad2bfb9251 () {
+function gvisDataGeoChartID9abb34df1c71 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -584,8 +584,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID96ad2bfb9251() {
-var data = gvisDataGeoChartID96ad2bfb9251();
+function drawChartGeoChartID9abb34df1c71() {
+var data = gvisDataGeoChartID9abb34df1c71();
 var options = {};
 options["width"] = 600;
 options["height"] = 400;
@@ -596,7 +596,7 @@ options["datalessRegionColor"] = "#FFFFFF";
 options["colorAxis"] = {minValue:0,maxValue:50000000};
 
     var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID96ad2bfb9251')
+    document.getElementById('GeoChartID9abb34df1c71')
     );
     chart.draw(data,options);
     
@@ -620,9 +620,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID96ad2bfb9251);
+callbacks.push(drawChartGeoChartID9abb34df1c71);
 })();
-function displayChartGeoChartID96ad2bfb9251() {
+function displayChartGeoChartID9abb34df1c71() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -645,9 +645,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID96ad2bfb9251"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID9abb34df1c71"></script>
 <!-- divChart -->
-<div id="GeoChartID96ad2bfb9251" style="width: 600; height: 400;">
+<div id="GeoChartID9abb34df1c71" style="width: 600; height: 400;">
 
 </div>
 <p>Aust-Agder er på plass og vi har en fin statistikk over produksjon av grisekjøtt i Norge.</p>
