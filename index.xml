@@ -6,9 +6,28 @@
     <description>Recent content on arnes.dev.blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 22 Mar 2018 12:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Thu, 22 Mar 2018 12:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>A dev blog by Arne Fossaa - focusing on whatever is my interest at the time, including data science, machine learning, graphics, etc.</description>
+    </item>
+    
+    <item>
+      <title>R og Åpen data - Enkel analyse av norsk kjøttproduksjon</title>
+      <link>/2018/03/22/r-og-%C3%A5pen-data---enkel-analyse-av-norsk-kj%C3%B8ttproduksjon/</link>
+      <pubDate>Thu, 22 Mar 2018 12:00:00 +0000</pubDate>
+      
+      <guid>/2018/03/22/r-og-%C3%A5pen-data---enkel-analyse-av-norsk-kj%C3%B8ttproduksjon/</guid>
+      <description>På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger.</description>
+    </item>
     
   </channel>
 </rss>
