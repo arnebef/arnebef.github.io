@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>Bruk av R på åpne data - Norsk kjøttproduksjon</title>
-      <link>/2018/03/22/bruk-av-r-p%C3%A5-%C3%A5pne-data---norsk-kj%C3%B8ttproduksjon/</link>
+      <title>R og Åpen data - Enkel analyse av norsk kjøttproduksjon</title>
+      <link>/2018/03/22/r-og-%C3%A5pen-data---enkel-analyse-av-norsk-kj%C3%B8ttproduksjon/</link>
       <pubDate>Thu, 22 Mar 2018 12:00:00 +0000</pubDate>
       
-      <guid>/2018/03/22/bruk-av-r-p%C3%A5-%C3%A5pne-data---norsk-kj%C3%B8ttproduksjon/</guid>
+      <guid>/2018/03/22/r-og-%C3%A5pen-data---enkel-analyse-av-norsk-kj%C3%B8ttproduksjon/</guid>
       <description>På data.norge.no kan man finne en rekke interessante sett med åpne datasett, som er interessante både fordi de har en mengde med “ekte” data, og siden de er åpne og tilpasset analyse fint kan analysere som man vil. Her tar jeg for meg statistikk over norsk kjøttproduksjon i 2016, som er et datasett over produksjon av kjøttyper. Det som er fint med datasettet er at det har detaljer ned på hver bonde, slik at det er mulig aggreregere over dataen og finne sammenhenger.</description>
     </item>
     
